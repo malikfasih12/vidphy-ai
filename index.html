@@ -237,6 +237,29 @@
       display: block;
     }
 
+    .video-result {
+      margin-top: 15px;
+    }
+
+    .video-result video {
+      width: 100%;
+      max-height: 600px;
+      display: block;
+      background: #000;
+      border-radius: 12px;
+    }
+
+    .download-btn {
+      display: inline-block;
+      margin-top: 14px;
+      padding: 11px 18px;
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+      color: white;
+      text-decoration: none;
+      border-radius: 9px;
+      font-weight: 700;
+    }
+
     .features {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -315,6 +338,7 @@
     <div class="credits">
       <div class="credits-title">Daily Credits</div>
       <div class="credits-number">50 / 50</div>
+
       <div class="credit-bar">
         <div class="credit-fill"></div>
       </div>
@@ -355,6 +379,7 @@ Example: Create a cinematic 60-second video about the history of artificial inte
 
         <div class="option">
           <label>Video Style</label>
+
           <select id="style">
             <option>Cinematic</option>
             <option>Realistic</option>
@@ -362,34 +387,44 @@ Example: Create a cinematic 60-second video about the history of artificial inte
             <option>3D Animation</option>
             <option>Documentary</option>
           </select>
+
         </div>
+
 
         <div class="option">
           <label>Duration</label>
+
           <select id="duration">
             <option value="1">1 Minute</option>
             <option value="2">2 Minutes</option>
             <option value="3">3 Minutes</option>
             <option value="5">5 Minutes</option>
           </select>
+
         </div>
+
 
         <div class="option">
           <label>Aspect Ratio</label>
+
           <select id="ratio">
             <option>9:16 — Shorts</option>
             <option>16:9 — YouTube</option>
             <option>1:1 — Square</option>
           </select>
+
         </div>
+
 
         <div class="option">
           <label>Voice</label>
+
           <select id="voice">
             <option>AI Voice</option>
             <option>Male Voice</option>
             <option>Female Voice</option>
           </select>
+
         </div>
 
       </div>
@@ -399,8 +434,11 @@ Example: Create a cinematic 60-second video about the history of artificial inte
         id="generateBtn"
         class="generate"
         onclick="generateVideo()">
+
         ✦ Generate Video
+
       </button>
+
 
       <div id="status" class="status"></div>
 
@@ -410,21 +448,41 @@ Example: Create a cinematic 60-second video about the history of artificial inte
     <section class="features">
 
       <div class="feature">
+
         <div class="feature-icon">✦</div>
+
         <h3>AI Scene Generation</h3>
-        <p>Turn your script into multiple cinematic scenes automatically.</p>
+
+        <p>
+          Turn your script into multiple cinematic scenes automatically.
+        </p>
+
       </div>
 
+
       <div class="feature">
+
         <div class="feature-icon">◉</div>
+
         <h3>AI Voice & Captions</h3>
-        <p>Generate natural voice-over and synchronized subtitles.</p>
+
+        <p>
+          Generate natural voice-over and synchronized subtitles.
+        </p>
+
       </div>
 
+
       <div class="feature">
+
         <div class="feature-icon">▶</div>
+
         <h3>Ready-to-Download Video</h3>
-        <p>Scenes are combined into one finished MP4 video.</p>
+
+        <p>
+          Scenes are combined into one finished MP4 video.
+        </p>
+
       </div>
 
     </section>
@@ -438,77 +496,213 @@ Example: Create a cinematic 60-second video about the history of artificial inte
 
 async function generateVideo() {
 
-  const prompt = document.getElementById("prompt").value.trim();
-  const duration = document.getElementById("duration").value;
-  const style = document.getElementById("style").value;
-  const ratio = document.getElementById("ratio").value;
-  const voice = document.getElementById("voice").value;
+  const prompt =
+    document.getElementById("prompt").value.trim();
 
-  const button = document.getElementById("generateBtn");
-  const status = document.getElementById("status");
+  const duration =
+    document.getElementById("duration").value;
+
+  const style =
+    document.getElementById("style").value;
+
+  const ratio =
+    document.getElementById("ratio").value;
+
+  const voice =
+    document.getElementById("voice").value;
+
+  const button =
+    document.getElementById("generateBtn");
+
+  const status =
+    document.getElementById("status");
+
 
   if (!prompt) {
-    status.textContent = "Please enter a topic or script first.";
+
+    status.textContent =
+      "Please enter a topic or script first.";
+
     status.classList.add("show");
+
     return;
   }
 
-  button.disabled = true;
-  button.textContent = "⏳ Sending Request...";
 
-  status.textContent = "VidPhy AI is processing your request...";
+  button.disabled = true;
+
+  button.textContent =
+    "⏳ Generating Video...";
+
+
+  status.innerHTML =
+    "VidPhy AI is generating your video. Please wait...";
+
   status.classList.add("show");
+
 
   try {
 
-    const response = await fetch("/api/generate", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        prompt,
-        duration,
-        style,
-        ratio,
-        voice
-      })
-    });
+    const response = await fetch(
+      "/api/generate",
+      {
+        method: "POST",
 
-    const data = await response.json();
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+          prompt,
+          duration,
+          style,
+          ratio,
+          voice
+
+        })
+      }
+    );
+
 
     if (!response.ok) {
-      throw new Error(data.message || "Something went wrong.");
+
+      let errorMessage =
+        "Video generation failed.";
+
+      try {
+
+        const data =
+          await response.json();
+
+        errorMessage =
+          data.message ||
+          errorMessage;
+
+      } catch (jsonError) {
+
+        errorMessage =
+          "Video generation failed. Please try again.";
+
+      }
+
+      throw new Error(errorMessage);
     }
 
-    status.textContent =
-      "✓ Request received successfully! " +
-      "Your " + duration + "-minute video request is ready for the AI pipeline.";
 
-    button.textContent = "✓ Request Sent";
+    const videoBlob =
+      await response.blob();
+
+
+    if (
+      !videoBlob ||
+      videoBlob.size === 0
+    ) {
+
+      throw new Error(
+        "The generated video is empty."
+      );
+
+    }
+
+
+    const videoUrl =
+      URL.createObjectURL(videoBlob);
+
+
+    status.innerHTML = `
+
+      <div style="
+        font-weight:700;
+        font-size:16px;
+        margin-bottom:14px;
+      ">
+
+        ✓ Video generated successfully!
+
+      </div>
+
+
+      <div class="video-result">
+
+        <video
+          controls
+          playsinline
+          preload="metadata">
+
+          <source
+            src="${videoUrl}"
+            type="video/mp4">
+
+          Your browser does not support
+          video playback.
+
+        </video>
+
+
+        <a
+          class="download-btn"
+          href="${videoUrl}"
+          download="vidphy-ai-video.mp4">
+
+          ↓ Download MP4
+
+        </a>
+
+      </div>
+
+    `;
+
+
+    button.textContent =
+      "✓ Video Generated";
+
 
   } catch (error) {
 
-    status.textContent = "Error: " + error.message;
-    button.textContent = "✦ Generate Video";
+    console.error(
+      "VidPhy AI Error:",
+      error
+    );
+
+
+    status.textContent =
+      "Error: " + error.message;
+
+
+    button.textContent =
+      "✦ Generate Video";
+
 
   } finally {
 
     button.disabled = false;
 
   }
+
 }
 
 
 function newProject() {
 
-  document.getElementById("prompt").value = "";
+  document.getElementById(
+    "prompt"
+  ).value = "";
 
-  const status = document.getElementById("status");
+
+  const status =
+    document.getElementById("status");
+
+
   status.classList.remove("show");
-  status.textContent = "";
 
-  document.getElementById("generateBtn").textContent = "✦ Generate Video";
+  status.innerHTML = "";
+
+
+  document.getElementById(
+    "generateBtn"
+  ).textContent =
+    "✦ Generate Video";
 
 }
 
