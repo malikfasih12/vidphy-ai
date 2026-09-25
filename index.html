@@ -15,7 +15,7 @@
     body {
       font-family: Inter, Arial, sans-serif;
       background: #07070a;
-      color: #ffffff;
+      color: #fff;
       min-height: 100vh;
     }
 
@@ -24,7 +24,6 @@
       min-height: 100vh;
     }
 
-    /* Sidebar */
     .sidebar {
       width: 245px;
       background: #0c0c10;
@@ -37,7 +36,6 @@
     .logo {
       font-size: 24px;
       font-weight: 800;
-      letter-spacing: -0.5px;
       padding: 0 10px 30px;
     }
 
@@ -45,21 +43,21 @@
       color: #8b5cf6;
     }
 
-    .new-btn {
-      width: 100%;
+    .new-btn,
+    .generate {
       border: none;
-      border-radius: 10px;
-      padding: 13px;
-      background: #8b5cf6;
+      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
       color: white;
-      font-size: 14px;
       font-weight: 700;
       cursor: pointer;
-      margin-bottom: 25px;
     }
 
-    .new-btn:hover {
-      background: #7c3aed;
+    .new-btn {
+      width: 100%;
+      border-radius: 10px;
+      padding: 13px;
+      font-size: 14px;
+      margin-bottom: 25px;
     }
 
     .nav {
@@ -72,12 +70,11 @@
       padding: 12px 13px;
       border-radius: 9px;
       color: #a1a1aa;
-      cursor: pointer;
       font-size: 14px;
     }
 
-    .nav-item:hover,
-    .nav-item.active {
+    .nav-item.active,
+    .nav-item:hover {
       background: #18181f;
       color: white;
     }
@@ -115,7 +112,6 @@
       background: #8b5cf6;
     }
 
-    /* Main */
     .main {
       flex: 1;
       padding: 45px 6%;
@@ -153,7 +149,6 @@
       font-weight: 700;
     }
 
-    /* Generator */
     .generator {
       background: #0d0d12;
       border: 1px solid #22222a;
@@ -218,20 +213,30 @@
       width: 100%;
       margin-top: 22px;
       padding: 15px;
-      border: none;
       border-radius: 10px;
-      background: linear-gradient(135deg, #8b5cf6, #6d28d9);
-      color: white;
       font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
     }
 
-    .generate:hover {
-      opacity: .92;
+    .generate:disabled {
+      opacity: .6;
+      cursor: wait;
     }
 
-    /* Features */
+    .status {
+      display: none;
+      margin-top: 18px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #111117;
+      border: 1px solid #292932;
+      color: #c4b5fd;
+      font-size: 14px;
+    }
+
+    .status.show {
+      display: block;
+    }
+
     .features {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -262,7 +267,6 @@
       line-height: 1.5;
     }
 
-    /* Mobile */
     @media (max-width: 850px) {
       .sidebar {
         display: none;
@@ -289,169 +293,226 @@
 
 <body>
 
-  <div class="app">
+<div class="app">
 
-    <aside class="sidebar">
+  <aside class="sidebar">
 
-      <div class="logo">
-        VidPhy<span>AI</span>
+    <div class="logo">
+      VidPhy<span>AI</span>
+    </div>
+
+    <button class="new-btn" onclick="newProject()">
+      + New Video
+    </button>
+
+    <div class="nav">
+      <div class="nav-item active">✦ Create</div>
+      <div class="nav-item">▣ My Videos</div>
+      <div class="nav-item">◷ History</div>
+      <div class="nav-item">◎ Credits</div>
+    </div>
+
+    <div class="credits">
+      <div class="credits-title">Daily Credits</div>
+      <div class="credits-number">50 / 50</div>
+      <div class="credit-bar">
+        <div class="credit-fill"></div>
+      </div>
+    </div>
+
+  </aside>
+
+
+  <main class="main">
+
+    <div class="top">
+
+      <div class="welcome">
+        <h1>What do you want to create?</h1>
+        <p>Turn your ideas into engaging AI-powered videos.</p>
       </div>
 
-      <button class="new-btn" onclick="newProject()">
-        + New Video
-      </button>
+      <div class="profile">V</div>
 
-      <div class="nav">
-        <div class="nav-item active">✦ Create</div>
-        <div class="nav-item">▣ My Videos</div>
-        <div class="nav-item">◷ History</div>
-        <div class="nav-item">◎ Credits</div>
+    </div>
+
+
+    <section class="generator">
+
+      <div class="section-title">
+        Describe your video
       </div>
 
-      <div class="credits">
-        <div class="credits-title">Daily Credits</div>
-        <div class="credits-number">50 / 50</div>
-
-        <div class="credit-bar">
-          <div class="credit-fill"></div>
-        </div>
-      </div>
-
-    </aside>
-
-
-    <main class="main">
-
-      <div class="top">
-
-        <div class="welcome">
-          <h1>What do you want to create?</h1>
-          <p>Turn your ideas into engaging AI-powered videos.</p>
-        </div>
-
-        <div class="profile">V</div>
-
-      </div>
-
-
-      <section class="generator">
-
-        <div class="section-title">
-          Describe your video
-        </div>
-
-        <textarea
-          id="prompt"
-          placeholder="Write your topic, story or script here...
+      <textarea
+        id="prompt"
+        placeholder="Write your topic, story or script here...
 
 Example: Create a cinematic 60-second video about the history of artificial intelligence."
-        ></textarea>
+      ></textarea>
 
 
-        <div class="options">
+      <div class="options">
 
-          <div class="option">
-            <label>Video Style</label>
-            <select>
-              <option>Cinematic</option>
-              <option>Realistic</option>
-              <option>Anime</option>
-              <option>3D Animation</option>
-              <option>Documentary</option>
-            </select>
-          </div>
-
-          <div class="option">
-            <label>Duration</label>
-            <select id="duration">
-              <option value="1">1 Minute</option>
-              <option value="2">2 Minutes</option>
-              <option value="3">3 Minutes</option>
-              <option value="5">5 Minutes</option>
-            </select>
-          </div>
-
-          <div class="option">
-            <label>Aspect Ratio</label>
-            <select>
-              <option>9:16 — Shorts</option>
-              <option>16:9 — YouTube</option>
-              <option>1:1 — Square</option>
-            </select>
-          </div>
-
-          <div class="option">
-            <label>Voice</label>
-            <select>
-              <option>AI Voice</option>
-              <option>Male Voice</option>
-              <option>Female Voice</option>
-            </select>
-          </div>
-
+        <div class="option">
+          <label>Video Style</label>
+          <select id="style">
+            <option>Cinematic</option>
+            <option>Realistic</option>
+            <option>Anime</option>
+            <option>3D Animation</option>
+            <option>Documentary</option>
+          </select>
         </div>
 
-
-        <button class="generate" onclick="generateVideo()">
-          ✦ Generate Video
-        </button>
-
-      </section>
-
-
-      <section class="features">
-
-        <div class="feature">
-          <div class="feature-icon">✦</div>
-          <h3>AI Scene Generation</h3>
-          <p>Turn your script into multiple cinematic scenes automatically.</p>
+        <div class="option">
+          <label>Duration</label>
+          <select id="duration">
+            <option value="1">1 Minute</option>
+            <option value="2">2 Minutes</option>
+            <option value="3">3 Minutes</option>
+            <option value="5">5 Minutes</option>
+          </select>
         </div>
 
-        <div class="feature">
-          <div class="feature-icon">◉</div>
-          <h3>AI Voice & Captions</h3>
-          <p>Generate natural voice-over and synchronized subtitles.</p>
+        <div class="option">
+          <label>Aspect Ratio</label>
+          <select id="ratio">
+            <option>9:16 — Shorts</option>
+            <option>16:9 — YouTube</option>
+            <option>1:1 — Square</option>
+          </select>
         </div>
 
-        <div class="feature">
-          <div class="feature-icon">▶</div>
-          <h3>Ready-to-Download Video</h3>
-          <p>Scenes are combined into one finished MP4 video.</p>
+        <div class="option">
+          <label>Voice</label>
+          <select id="voice">
+            <option>AI Voice</option>
+            <option>Male Voice</option>
+            <option>Female Voice</option>
+          </select>
         </div>
 
-      </section>
-
-    </main>
-
-  </div>
+      </div>
 
 
-  <script>
+      <button
+        id="generateBtn"
+        class="generate"
+        onclick="generateVideo()">
+        ✦ Generate Video
+      </button>
 
-    function newProject() {
-      document.getElementById("prompt").value = "";
-      window.scrollTo({top: 0, behavior: "smooth"});
+      <div id="status" class="status"></div>
+
+    </section>
+
+
+    <section class="features">
+
+      <div class="feature">
+        <div class="feature-icon">✦</div>
+        <h3>AI Scene Generation</h3>
+        <p>Turn your script into multiple cinematic scenes automatically.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">◉</div>
+        <h3>AI Voice & Captions</h3>
+        <p>Generate natural voice-over and synchronized subtitles.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">▶</div>
+        <h3>Ready-to-Download Video</h3>
+        <p>Scenes are combined into one finished MP4 video.</p>
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<script>
+
+async function generateVideo() {
+
+  const prompt = document.getElementById("prompt").value.trim();
+  const duration = document.getElementById("duration").value;
+  const style = document.getElementById("style").value;
+  const ratio = document.getElementById("ratio").value;
+  const voice = document.getElementById("voice").value;
+
+  const button = document.getElementById("generateBtn");
+  const status = document.getElementById("status");
+
+  if (!prompt) {
+    status.textContent = "Please enter a topic or script first.";
+    status.classList.add("show");
+    return;
+  }
+
+  button.disabled = true;
+  button.textContent = "⏳ Sending Request...";
+
+  status.textContent = "VidPhy AI is processing your request...";
+  status.classList.add("show");
+
+  try {
+
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        prompt,
+        duration,
+        style,
+        ratio,
+        voice
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Something went wrong.");
     }
 
-    function generateVideo() {
+    status.textContent =
+      "✓ Request received successfully! " +
+      "Your " + duration + "-minute video request is ready for the AI pipeline.";
 
-      const prompt = document.getElementById("prompt").value.trim();
+    button.textContent = "✓ Request Sent";
 
-      if (!prompt) {
-        alert("Please enter a topic or script first.");
-        return;
-      }
+  } catch (error) {
 
-      const duration = document.getElementById("duration").value;
+    status.textContent = "Error: " + error.message;
+    button.textContent = "✦ Generate Video";
 
-      alert(
-        "VidPhy AI is ready!\\n\\n" +
-        "Your video request: " + duration + " minute(s)\\n\\n" +
-        "AI generation backend will be connected in the next step."
-      );
-    }
+  } finally {
 
-  </script>
+    button.disabled = false;
+
+  }
+}
+
+
+function newProject() {
+
+  document.getElementById("prompt").value = "";
+
+  const status = document.getElementById("status");
+  status.classList.remove("show");
+  status.textContent = "";
+
+  document.getElementById("generateBtn").textContent = "✦ Generate Video";
+
+}
+
+</script>
 
 </body>
 </html>
