@@ -1,0 +1,9 @@
+{
+  "name": "vidphy-ai",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@huggingface/inference": "^4.13.9"
+  }
+}
