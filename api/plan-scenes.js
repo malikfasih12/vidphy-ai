@@ -23,30 +23,44 @@ export default async function handler(req, res) {
 
     const minutes = Math.max(1, Number(duration) || 1);
 
-    // We use short scenes so that longer videos
-    // can later be assembled into one final MP4.
-    const targetScenes = Math.max(6, Math.round(minutes * 8));
+    // About 8 scenes per minute, with each scene designed for 5 seconds.
+    const totalScenes = Math.max(8, Math.round(minutes * 8));
 
-    const cleanPrompt = prompt.trim();
+    const story = prompt.trim();
+
+    const sceneTemplates = [
+      "Establish the location and introduce the main subject.",
+      "Show the main subject beginning the central action.",
+      "Introduce an important development or discovery.",
+      "Build tension or move the story forward.",
+      "Show the main conflict becoming more intense.",
+      "Reveal an important detail or unexpected moment.",
+      "Bring the story toward its climax.",
+      "Deliver a memorable ending or final reveal."
+    ];
 
     const scenes = [];
 
-    for (let i = 0; i < targetScenes; i++) {
+    for (let i = 0; i < totalScenes; i++) {
+      const template = sceneTemplates[i % sceneTemplates.length];
+
       scenes.push({
         scene: i + 1,
         duration_seconds: 5,
-        prompt: `${cleanPrompt}. Scene ${i + 1} of ${targetScenes}. ${style} visual style. Aspect ratio: ${ratio}. Cinematic composition, realistic lighting, smooth camera movement, detailed environment, consistent visual style.`
+        purpose: template,
+        prompt: `${story}. ${template} Scene ${i + 1} of ${totalScenes}. ${style} visual style. Aspect ratio: ${ratio}. Cinematic composition, realistic lighting, smooth camera movement, detailed environment, consistent characters and visual continuity.`
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: "Scene plan created successfully.",
+      message: "Smart scene plan created successfully.",
       project: {
         duration_minutes: minutes,
         style,
         ratio,
-        total_scenes: scenes.length
+        total_scenes: totalScenes,
+        scene_duration_seconds: 5
       },
       scenes
     });

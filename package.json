@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "scripts": {},
   "dependencies": {
     "@huggingface/inference": "^4.13.9"
+  },
+  "devDependencies": {
+    "vercel": "^60.0.1"
   }
 }
