@@ -37,7 +37,7 @@ export default async function handler(req, res) {
       .join(". ");
 
     const video = await hf.textToVideo({
-      model: "Wan-AI/Wan2.1-T2V-1.3B",
+      model: "Wan-AI/Wan2.2-TI2V-5B",
       inputs: finalPrompt,
       provider: "fal-ai"
     });
